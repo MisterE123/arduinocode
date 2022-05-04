@@ -1,0 +1,62 @@
+#include <Servo.h>
+
+
+Servo servo1;
+Servo servo2;
+
+int zero = 1500;
+
+
+//max speed = 115
+//min speed = 65
+int speed = 115;
+
+int pwm_delay = 100;
+
+
+
+//25000 first part
+int ttime = 25000; //target time until stopping
+int pwm = true;
+
+
+//10000 second part
+
+//int ttime = 13000; //target time until stopping
+//int pwm = false;
+
+
+
+//pins
+int servo_1 =10;
+int servo_2=11;
+
+
+
+void setup() {
+  servo1.attach(servo_1);
+  servo2.attach(servo_2);
+  pinMode(LED_BUILTIN, OUTPUT);
+//  Serial.begin(9600);//start serial console output for debugging
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (millis() < ttime) { // increment dtime and compare it to ttime
+    servo1.write(zero-speed);
+    servo2.write(zero+speed+10);
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)   
+    if (pwm == true) {
+        delay(pwm_delay);
+        servo1.write(zero);
+        servo2.write(zero);
+        delay(pwm_delay);
+    }
+  }
+  else {  
+    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+    //write to the servos to tell them to turn off
+    servo1.write(zero);
+    servo2.write(zero);
+  }
+}
